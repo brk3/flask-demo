@@ -42,12 +42,6 @@ def hello():
     return flask.render_template('hello.html', name='Paul')
 
 
-@app.route('/path/<path:subpath>')
-def show_subpath(subpath):
-    # show the subpath after /path/
-    return 'Subpath %s' % flask.escape(subpath)
-
-
 @app.route('/sql')
 def sql():
     driver = '{ODBC Driver 17 for SQL server}'
