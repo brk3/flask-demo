@@ -24,7 +24,7 @@ RUN apt-get update \
     msodbcsql17 \
   && rm -rf /var/lib/apt/lists/*
 
-RUN pip3 install wheel
+RUN pip3 install --no-cache-dir wheel
 
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
@@ -54,8 +54,7 @@ WORKDIR /app
 # Copy the app contents to the image
 COPY . /app
 
-RUN pip install --no-cache-dir -U pip
-RUN pip install --no-cache-dir -r /app/requirements.txt
+RUN pip3 install --no-cache-dir -r /app/requirements.txt
 
 ENV FLASK_APP=hello.py
 
