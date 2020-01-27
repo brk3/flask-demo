@@ -1,0 +1,4 @@
+flask
+opencensus-ext-azure
+pyodbc
+pytest
