@@ -1,0 +1,11 @@
+language: python
+
+services:
+  - docker
+
+install:
+  - pip install -r test-requirements.txt
+
+script:
+  - flake8
+  - docker build -t flask-demo .
