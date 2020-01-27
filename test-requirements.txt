@@ -1,3 +1,5 @@
 flake8
+flask
 mock
+opencensus-ext-azure
 pytest
