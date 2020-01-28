@@ -1,0 +1,21 @@
+stages:
+  - lint
+  - test
+  - build
+
+lint:
+  stage: lint
+  script:
+	- pip install -r test-requirements.txt
+	- flake8
+
+test:
+  stage: test
+  script:
+	- pip install -r test-requirements.txt
+	- python -m pytest
+
+build:
+  stage: build
+  script:
+	- docker build -t flask-demo .
