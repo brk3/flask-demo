@@ -14,7 +14,12 @@ variables:
 stages:
 - stage: Build
   displayName: Build image
-  jobs:  
+  jobs:
+  - job: Test
+    displayName: Test
+    steps:
+    - bash: pip install -r test-requirements.txt
+    - bash: flake8
   - job: Build
     displayName: Build
     pool:
