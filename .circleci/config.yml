@@ -1,64 +1,51 @@
-# Python CircleCI 2.0 configuration file
-#
-# Check https://circleci.com/docs/2.0/language-python/ for more details
-#
-version: 2
+version: 2.1
+
+orbs:
+  azure-cli: circleci/azure-cli@1.1.0
+  azure-acr: circleci/azure-acr@0.1.4
+
 jobs:
   lint:
     docker:
       - image: circleci/python:3.6.4
-
     steps:
       - checkout
-
       - run:
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r test-requirements.txt
-
-      - run: |
-          . venv/bin/activate
-          flake8 --exclude venv
+            flake8 --exclude venv
 
   test:
     docker:
       - image: circleci/python:3.6.4
-
     steps:
       - checkout
-
       - run:
-          name: install dependencies
           command: |
             python3 -m venv venv
             . venv/bin/activate
             pip install -r test-requirements.txt
-
-      - run:
-          name: run tests
-          command: |
-            . venv/bin/activate
             python -m pytest
 
-  build:
+  build_deploy:
     docker:
       - image: circleci/python:3.6.4
-
     steps:
       - setup_remote_docker
-
-      - checkout
-
-      - run: docker build -t flask-demo:$CIRCLE_BRANCH .
+      - azure-acr/build-and-push-image:
+          login-server-name: paul239containerregistry.azurecr.io
+          registry-name: paul239containerregistry
+          repo: flask-demo
 
 workflows:
   version: 2
-  lint_test_build:
+  lint_test_deploy:
     jobs:
       - lint
       - test
-      - build:
+      - build_deploy:
           requires:
             - lint
             - test
