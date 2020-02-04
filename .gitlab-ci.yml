@@ -1,24 +1,33 @@
+default:
+  image: python:3.6
+
 stages:
-  #- lint
-  #- test
+  - lint
+  - test
   - build
 
-#lint:
-  #stage: lint
-  #script:
-    #- pip install -r test-requirements.txt
-    #- flake8
+lint:
+  stage: lint
+  script:
+    - python3 -m venv venv
+    - . venv/bin/activate
+    - pip install -r test-requirements.txt
+    - flake8 --exclude venv
 
-#test:
-  #stage: test
-  #script:
-    #- pip install -r test-requirements.txt
-    #- python -m pytest
+test:
+  stage: test
+  script:
+    - python3 -m venv venv
+    - . venv/bin/activate
+    - pip install -r test-requirements.txt
+    - python -m pytest
 
-build:
+build_and_deploy:
   image: docker:latest
   services:
     - docker:dind
   stage: build
   script:
-    - docker build -t flask-demo .
+    - docker login -u $DOCKER_USER -p $DOCKER_PASS paultest123.azurecr.io
+    - docker build -t paultest123.azurecr.io/flask-demo .
+    - docker push paultest123.azurecr.io/flask-demo

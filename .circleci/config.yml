@@ -35,8 +35,8 @@ jobs:
     steps:
       - setup_remote_docker
       - azure-acr/build-and-push-image:
-          login-server-name: paul239containerregistry.azurecr.io
-          registry-name: paul239containerregistry
+          login-server-name: 28811containerregistry.azurecr.io
+          registry-name: 28811containerregistry
           repo: flask-demo
 
 workflows:
