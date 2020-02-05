@@ -24,7 +24,7 @@ password = ''
 @app.route('/')
 def root():
     app.logger.info('root called')
-    return 'Hello World'
+    return 'Hello Asystec'
 
 
 @app.route('/json')
